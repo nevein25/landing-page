@@ -83,12 +83,31 @@ window.addEventListener('scroll',function(){
 
     });
 
-        
-   
+
+
 });
 
 // Scroll to anchor ID using scrollTO event
+const links = document.querySelectorAll('a');
+let theId;
 
+links.forEach(link =>{
+    link.addEventListener('click',function(e){
+        theId = (e.target.innerText).toLowerCase().replace(' ', '');
+        let targetSection = document.getElementById(theId);
+        //window.scrollTo(0, targetSection.offsetTop);
+        window.scrollTo({
+            top: targetSection.offsetTop,
+            left: 0,
+            behavior: 'smooth'
+          });
+        console.log(theId);
+        console.log(targetSection);
+    });
+});
+
+
+//window.scrollTo(0, $0.getBoundingClientRect().top);
 
 /**
  * End Main Functions
