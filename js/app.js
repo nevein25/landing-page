@@ -23,12 +23,29 @@
  * 
 */
 
+// navBar variables
+const fragment = document.createDocumentFragment();
+const sections = document.querySelectorAll('section');
+const h2InSections = document.querySelectorAll('section h2');
+const theUl = document.getElementById('navbar__list');
 
 /**
  * End Global Variables
  * Start Helper Functions
  * 
 */
+
+// Populating li in the navbar
+for (let i = 0; i < sections.length; i++){
+    const newLi = document.createElement('li');
+    newLi.innerText = h2InSections[i].innerText;
+    newLi.classList.add('menu__link');
+    fragment.appendChild(newLi);
+
+}
+theUl.appendChild(fragment);
+
+
 
 
 
