@@ -36,6 +36,15 @@ const theNav = document.querySelector('.page__header');
  * 
 */
 
+// Remove the active class from every other section that is not on the visual viewport.
+function removeActiveClass (nodeList, element, activeClass){
+    for (let j = 0; j < nodeList.length ; j++){
+        if (nodeList[j] === element){
+            continue;
+        }
+        nodeList[j].classList.remove(activeClass);
+    }
+}
 
 /**
  * End Helper Functions
@@ -44,41 +53,51 @@ const theNav = document.querySelector('.page__header');
 */
 
 // build the nav
-
-
-for (let i = 0; i < sections.length; i++){
-    const newLi = document.createElement('li');
-    const newA = document.createElement('a');
-    newA.innerText = h2InSections[i].innerText;
-    newLi.appendChild(newA);
-    newA.classList.add('menu__link');
-    fragment.appendChild(newLi);
-
+buildNav ();
+function buildNav (){
+    for (let i = 0; i < sections.length; i++){
+        const newLi = document.createElement('li');
+        const newA = document.createElement('a');
+        newA.innerText = h2InSections[i].innerText;
+        newLi.appendChild(newA);
+        newA.classList.add('menu__link');
+        fragment.appendChild(newLi);
+    
+    }
+        theUl.appendChild(fragment);
+        
 }
-theUl.appendChild(fragment);
 
+
+
+
+/**
+ * End Main Functions
+ * Begin Events
+ * 
+*/
 // Add class 'active' to section when near top of viewport
 
 window.addEventListener('scroll',function(){
     // Number of pixels that the document is currently scrolled verticall
-    const windowTop = window.scrollY;
+    //const windowTop = window.scrollY;
+    const windowHeight = window.innerHeight;
     const navHeight = theNav.clientHeight;
-    let sectionTop;
+   // let sectionTop;
+    // from the section bottom to the visual viewport
+    let sectionHeight;
+   // const theAnchor = document.getElementById();
     sections.forEach((section)=>{
         // Top position (in pixels) relative to the parent.
-        sectionTop = section.offsetTop;
-        sectionHeight = section.clientHeight;
+       // sectionTop = section.offsetTop;
+       // console.log(`windoe.innerHeight ${window.innerHeight} sectionBundel ${section.getBoundingClientRect().bottom}`)
+        sectionHeight = section.getBoundingClientRect().bottom ;
 
-        if((Math.round(windowTop) + navHeight >= sectionTop) && (Math.round(windowTop) <= sectionTop + sectionHeight)){
+        if(( windowHeight >= sectionHeight - navHeight)){
             section.classList.add('your-active-class');
-
+            
             // Remove the active class from every other section that is not on the viewport.
-            for (let j = 0; j < sections.length ; j++){
-                if (sections[j] === section){
-                    continue;
-                }
-                sections[j].classList.remove('your-active-class');
-            }
+            removeActiveClass(sections, section, 'your-active-class');
         }
 
     });
@@ -86,6 +105,9 @@ window.addEventListener('scroll',function(){
 
 
 });
+
+
+
 
 // Scroll to anchor ID using scrollTO event
 const links = document.querySelectorAll('a');
@@ -95,25 +117,22 @@ links.forEach(link =>{
     link.addEventListener('click',function(e){
         theId = (e.target.innerText).toLowerCase().replace(' ', '');
         let targetSection = document.getElementById(theId);
-        //window.scrollTo(0, targetSection.offsetTop);
+        //let liOfTheLink = e.targetSection;
+        //console.log(targetSection);
+        e.target.classList.add('active-anchor');
+        // Remove the active class from every other section that is not on the viewport.
+        removeActiveClass(links, link, 'active-anchor');
+
+        console.log(targetSection.offsetTop);
         window.scrollTo({
             top: targetSection.offsetTop,
             left: 0,
             behavior: 'smooth'
           });
-        console.log(theId);
-        console.log(targetSection);
+        //console.log(theId);
+        //console.log(targetSection);
     });
 });
-
-
-//window.scrollTo(0, $0.getBoundingClientRect().top);
-
-/**
- * End Main Functions
- * Begin Events
- * 
-*/
 
 // Build menu 
 

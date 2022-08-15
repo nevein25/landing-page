@@ -81,6 +81,11 @@ section {
     text-decoration: none;
     color: #000;
 }
+.active-anchor{
+    background: #333;
+    color: #fff !important;
+    
+}
 
 .navbar__menu .menu__link:hover {
     background: #333;
