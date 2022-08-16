@@ -79,23 +79,17 @@ function buildNav (){
 // Add class 'active' to section when near top of viewport
 
 window.addEventListener('scroll',function(){
-    // Number of pixels that the document is currently scrolled verticall
-    //const windowTop = window.scrollY;
+
     const windowHeight = window.innerHeight;
     const navHeight = theNav.clientHeight;
-   // let sectionTop;
+
     // from the section bottom to the visual viewport
     let sectionHeight;
-   // const theAnchor = document.getElementById();
     sections.forEach((section)=>{
-        // Top position (in pixels) relative to the parent.
-       // sectionTop = section.offsetTop;
-       //console.log(`windoe.innerHeight ${window.innerHeight} sectionBundel ${section.getBoundingClientRect().bottom}`)
-        sectionHeight = section.getBoundingClientRect().Top;
-        //console.log(section.offsetTop);
-        console.log( window.innerHeight);
-        console.log( section + " " +section.getBoundingClientRect().top);
-        if(( window.innerHeight >= section.getBoundingClientRect().top + theNav.clientHeight)){
+    
+        sectionHeight = section.getBoundingClientRect().top;
+
+        if(( windowHeight >= sectionHeight + navHeight)){
             section.classList.add('your-active-class');
             
             // Remove the active class from every other section that is not on the viewport.
@@ -103,8 +97,6 @@ window.addEventListener('scroll',function(){
         }
 
     });
-
-
 
 });
 
