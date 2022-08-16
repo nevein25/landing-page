@@ -28,6 +28,7 @@ const sections = document.querySelectorAll('section');
 const h2InSections = document.querySelectorAll('section h2');
 const theUl = document.getElementById('navbar__list');
 const theNav = document.querySelector('.page__header');
+const toTopButton = document.getElementById('top');
 
 /**
  * End Global Variables
@@ -44,6 +45,7 @@ function removeActiveClass (nodeList, element, activeClass){
         nodeList[j].classList.remove(activeClass);
     }
 }
+
 
 /**
  * End Helper Functions
@@ -79,26 +81,34 @@ function buildNav (){
 // Add class 'active' to section when near the top of the visual viewport
 
 window.addEventListener('scroll',function(){
-
     const windowHeight = window.innerHeight;
     const navHeight = theNav.clientHeight;
-
+    const theScrollY = window.scrollY;
     // from the section bottom to the visual viewport
     let sectionHeight;
     sections.forEach((section)=>{
     
         sectionHeight = section.getBoundingClientRect().top;
 
-        if(( windowHeight >= sectionHeight + navHeight)){
+        if(( windowHeight >= sectionHeight + navHeight) ){
             section.classList.add('your-active-class');
             
             // Remove the active class from every other section that is not on the viewport.
             removeActiveClass(sections, section, 'your-active-class');
         }
 
+        // Top button
+        if (theScrollY >= windowHeight){
+            toTopButton.style.display = 'block'; 
+        }
+        else {
+            toTopButton.style.display = 'none'; 
+        }
+
     });
 
 });
+
 
 
 
@@ -112,15 +122,25 @@ theUl.addEventListener('click',function(e){
     // Remove the active class from every other section that is not on the viewport.
     removeActiveClass(allAnchors, theTargeAnchor, 'active-anchor');
 
-    console.log(allAnchors);
     window.scrollTo({
-        top: targetSection.offsetTop - theNav.clientHeight,
+        top: targetSection.offsetTop - theNav.clientHeight * 2 ,
         left: 0,
         behavior: 'smooth'
-        });
+    });
 
 });
 
+toTopButton.addEventListener('click',function(){
+    const allAnchors = document.querySelectorAll('a');
+    removeActiveClass(allAnchors, allAnchors[0], 'active-anchor');
+    allAnchors[0].classList = 'menu__link active-anchor';
+    window.scrollTo({
+        top: sections[0].offsetTop - theNav.clientHeight,
+        left: 0,
+        behavior: 'smooth'
+    });
+    
+});
 
 // Build menu 
 
