@@ -23,7 +23,6 @@
  * 
 */
 
-// navBar variables
 const fragment = document.createDocumentFragment();
 const sections = document.querySelectorAll('section');
 const h2InSections = document.querySelectorAll('section h2');
@@ -52,7 +51,7 @@ function removeActiveClass (nodeList, element, activeClass){
  * 
 */
 
-// build the nav
+// Build the navbar
 buildNav ();
 function buildNav (){
     for (let i = 0; i < sections.length; i++){
@@ -76,7 +75,8 @@ function buildNav (){
  * Begin Events
  * 
 */
-// Add class 'active' to section when near top of viewport
+
+// Add class 'active' to section when near the top of the visual viewport
 
 window.addEventListener('scroll',function(){
 
@@ -102,31 +102,25 @@ window.addEventListener('scroll',function(){
 
 
 
+theUl.addEventListener('click',function(e){
+    const allAnchors = document.querySelectorAll('a');
+    const theTargeAnchor = e.target;
+    const theId = (theTargeAnchor.innerText).toLowerCase().replace(' ', '');
+    const targetSection = document.getElementById(theId);
+    theTargeAnchor.classList.add('active-anchor');
 
-// Scroll to anchor ID using scrollTO event
-const links = document.querySelectorAll('a');
-let theId;
+    // Remove the active class from every other section that is not on the viewport.
+    removeActiveClass(allAnchors, theTargeAnchor, 'active-anchor');
 
-links.forEach(link =>{
-    link.addEventListener('click',function(e){
-        theId = (e.target.innerText).toLowerCase().replace(' ', '');
-        let targetSection = document.getElementById(theId);
-        //let liOfTheLink = e.targetSection;
-        //console.log(targetSection);
-        e.target.classList.add('active-anchor');
-        // Remove the active class from every other section that is not on the viewport.
-        removeActiveClass(links, link, 'active-anchor');
+    console.log(allAnchors);
+    window.scrollTo({
+        top: targetSection.offsetTop - theNav.clientHeight,
+        left: 0,
+        behavior: 'smooth'
+        });
 
-        //console.log(targetSection.offsetTop);
-        window.scrollTo({
-            top: targetSection.offsetTop - theNav.clientHeight,
-            left: 0,
-            behavior: 'smooth'
-          });
-        //console.log(theId);
-        //console.log(targetSection);
-    });
 });
+
 
 // Build menu 
 
