@@ -90,10 +90,12 @@ window.addEventListener('scroll',function(){
     sections.forEach((section)=>{
         // Top position (in pixels) relative to the parent.
        // sectionTop = section.offsetTop;
-       // console.log(`windoe.innerHeight ${window.innerHeight} sectionBundel ${section.getBoundingClientRect().bottom}`)
-        sectionHeight = section.getBoundingClientRect().bottom ;
-
-        if(( windowHeight >= sectionHeight - navHeight)){
+       //console.log(`windoe.innerHeight ${window.innerHeight} sectionBundel ${section.getBoundingClientRect().bottom}`)
+        sectionHeight = section.getBoundingClientRect().Top;
+        //console.log(section.offsetTop);
+        console.log( window.innerHeight);
+        console.log( section + " " +section.getBoundingClientRect().top);
+        if(( window.innerHeight >= section.getBoundingClientRect().top + theNav.clientHeight)){
             section.classList.add('your-active-class');
             
             // Remove the active class from every other section that is not on the viewport.
@@ -123,9 +125,9 @@ links.forEach(link =>{
         // Remove the active class from every other section that is not on the viewport.
         removeActiveClass(links, link, 'active-anchor');
 
-        console.log(targetSection.offsetTop);
+        //console.log(targetSection.offsetTop);
         window.scrollTo({
-            top: targetSection.offsetTop,
+            top: targetSection.offsetTop - theNav.clientHeight,
             left: 0,
             behavior: 'smooth'
           });
