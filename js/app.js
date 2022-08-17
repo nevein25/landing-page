@@ -36,10 +36,11 @@ const toTopButton = document.getElementById('top');
  * 
 */
 
-// Remove the active class from every other section that is not on the visual viewport.
-function removeActiveClass (nodeList, element, activeClass){
-    for (let j = 0; j < nodeList.length ; j++){
-        if (nodeList[j] === element){
+// Remove the active class from every other section that is not in the visual viewport.
+
+function removeActiveClass(nodeList, element, activeClass) {
+    for (let j = 0; j < nodeList.length; j++) {
+        if (nodeList[j] === element) {
             continue;
         }
         nodeList[j].classList.remove(activeClass);
@@ -53,24 +54,22 @@ function removeActiveClass (nodeList, element, activeClass){
  * 
 */
 
-// Build the navbar
-buildNav ();
-function buildNav (){
-    for (let i = 0; i < sections.length; i++){
+// Build menu
+
+buildNav();
+function buildNav() {
+    for (let i = 0; i < sections.length; i++) {
         const newLi = document.createElement('li');
         const newA = document.createElement('a');
         newA.innerText = h2InSections[i].innerText;
         newLi.appendChild(newA);
         newA.classList.add('menu__link');
         fragment.appendChild(newLi);
-    
+
     }
-        theUl.appendChild(fragment);
-        
+    theUl.appendChild(fragment);
+
 }
-
-
-
 
 /**
  * End Main Functions
@@ -78,31 +77,30 @@ function buildNav (){
  * 
 */
 
-// Add class 'active' to section when near the top of the visual viewport
+// Set sections as active when it is near the top of the visual viewport
 
-window.addEventListener('scroll',function(){
+window.addEventListener('scroll', function () {
     const windowHeight = window.innerHeight;
     const navHeight = theNav.clientHeight;
     const theScrollY = window.scrollY;
-    // from the section bottom to the visual viewport
     let sectionHeight;
-    sections.forEach((section)=>{
-    
+    sections.forEach((section) => {
+
         sectionHeight = section.getBoundingClientRect().top;
 
-        if(( windowHeight >= sectionHeight + navHeight) ){
+        if ((windowHeight >= sectionHeight + navHeight)) {
             section.classList.add('your-active-class');
             
             // Remove the active class from every other section that is not on the viewport.
             removeActiveClass(sections, section, 'your-active-class');
         }
 
-        // Top button
-        if (theScrollY >= windowHeight){
-            toTopButton.style.display = 'block'; 
+        // Make (scroll to top button) visable when the user scrolls below the fold of the page.
+        if (theScrollY >= windowHeight) {
+            toTopButton.style.display = 'block';
         }
         else {
-            toTopButton.style.display = 'none'; 
+            toTopButton.style.display = 'none';
         }
 
     });
@@ -111,8 +109,9 @@ window.addEventListener('scroll',function(){
 
 
 
+// Scroll to section on link click
 
-theUl.addEventListener('click',function(e){
+theUl.addEventListener('click', function (e) {
     const allAnchors = document.querySelectorAll('a');
     const theTargeAnchor = e.target;
     const theId = (theTargeAnchor.innerText).toLowerCase().replace(' ', '');
@@ -123,28 +122,29 @@ theUl.addEventListener('click',function(e){
     removeActiveClass(allAnchors, theTargeAnchor, 'active-anchor');
 
     window.scrollTo({
-        top: targetSection.offsetTop - theNav.clientHeight * 2 ,
+        top: targetSection.offsetTop - theNav.clientHeight * 2,
         left: 0,
         behavior: 'smooth'
     });
 
 });
 
-toTopButton.addEventListener('click',function(){
+// Make the (scroll to top button) active
+toTopButton.addEventListener('click', function () {
     const allAnchors = document.querySelectorAll('a');
     removeActiveClass(allAnchors, allAnchors[0], 'active-anchor');
     allAnchors[0].classList = 'menu__link active-anchor';
     window.scrollTo({
-        top: sections[0].offsetTop - theNav.clientHeight,
+        top: sections[0].offsetTop - theNav.clientHeight * 2,
         left: 0,
         behavior: 'smooth'
     });
-    
+
 });
 
-// Build menu 
 
-// Scroll to section on link click
 
-// Set sections as active
+
+
+
 
